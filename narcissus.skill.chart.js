@@ -79,12 +79,17 @@
         extcss = bardata.color[0]!=='#' ? {} : {
           backgroundColor: bardata.color
         },
-        $title = $('<div>');
+        $title = $('<div>'),
+        titleCss = {};
 
         bardata.value = parseInt(bardata.value,10);
         bardata.value = (!bardata.value || bardata.value<1) ? 1 :
                   bardata.value>100 ? 100 : bardata.value;
         bardata.height = floor( data.height * bardata.value / 100 );
+
+        $title
+        .addClass('title')
+        .append(bardata.value+'%');
 
         $bar
         .css($.extend({
@@ -95,14 +100,22 @@
         },extcss))
         .append($title);
 
-        $title
-        .append(bardata.value+'%')
-        .addClass('title')
-        .css({
-          top: options.title==='inside' ? bardata.titleMargin : ( $title.height() + bardata.titleMargin ) * -1,
-          width: $title.width(),
-          float: 'none'
-        });
+        titleCss = {
+            width: $title.width(),
+            float: 'none'
+        }
+
+        titleCss.top =
+          options.title==='outside' ? ( $title.height() + bardata.titleMargin ) * -1 :
+          options.title==='middle' ? ( bardata.height -$title.height() ) / 2 :
+          options.title==='bottom' ? bardata.height + bardata.titleMargin :
+          bardata.titleMargin;
+
+        (options.titlealign==='left' || options.titlealign==='right') && (titleCss.float = options.titlealign);
+
+        options.titleopacity && (titleCss.opacity = options.titleopacity);
+
+        $title.css(titleCss);
 
       })
       .last()
