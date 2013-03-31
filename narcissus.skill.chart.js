@@ -26,21 +26,41 @@
   var
   ie = (navigator.appVersion.indexOf("MSIE") !== -1) ? parseFloat(navigator.appVersion.split("MSIE")[1]) : 99,
   touch = "ontouchstart" in document.documentElement && !!(document.body.className += ' touch'),
-  floor = Math.floor;
+  floor = Math.floor,
+  parsOpt = function(str){
+    if(!str) return {};
+
+    var
+    dec,prp,
+    obj={},
+    opts=str.toLowerCase().replace(/\s/g,'').split(',');
+
+    for(dec in opts){
+      dec = opts[dec].split(':');
+      obj[dec[0]]=dec[1];
+    }
+
+    return obj;
+  };
 
   $.fn.narcissusSkillBar = function(opt){
-    this.each(function(){
+    this.
+    each(function(){
       var
       that = this,
       $this = $(that),
-      data  = $.extend({
+      data = $.extend({
         theme: 'default',
         width: 350,
         height: 200,
         barSpacing: 10
       }, opt, $this.data()),
-      $bars = $('div[data-value]',this),
-      bar_width = floor( (data.width-data.barSpacing) / $bars.length ) - data.barSpacing;
+      options = $.extend({
+        title: 'outside',
+        titlemargin: 10
+      }, parsOpt(data.options)),
+      $bars = $('[data-value]',this),
+      bar_width = floor( (data.width+data.barSpacing) / $bars.length ) - data.barSpacing;
 
       $this
       .css({
@@ -48,33 +68,46 @@
         height: data.height
       });
 
-      $bars.each(function(){
+      $bars.
+      each(function(){
         var
         $bar = $(this),
         bardata = $.extend($bar.data(),{
-          width: bar_width
+          width: bar_width,
+          titleMargin: parseInt(options.titlemargin,10)
         }),
         extcss = bardata.color[0]!=='#' ? {} : {
           backgroundColor: bardata.color
         },
-        $title = $('<span>');
+        $title = $('<div>');
 
         bardata.value = parseInt(bardata.value,10);
         bardata.value = (!bardata.value || bardata.value<1) ? 1 :
                   bardata.value>100 ? 100 : bardata.value;
         bardata.height = floor( data.height * bardata.value / 100 );
 
-        $title
-        .append(bardata.value+'%');
-
         $bar
         .css($.extend({
           width: bardata.width,
           height: bardata.height,
-          marginLeft: data.barSpacing,
+          marginRight: data.barSpacing,
           marginTop:  data.height - bardata.height
         },extcss))
         .append($title);
+
+        $title
+        .append(bardata.value+'%')
+        .addClass('title')
+        .css({
+          top: options.title==='inside' ? bardata.titleMargin : ( $title.height() + bardata.titleMargin ) * -1,
+          width: $title.width(),
+          float: 'none'
+        });
+
+      })
+      .last()
+      .css({
+        marginRight: 0
       });
 
     });
