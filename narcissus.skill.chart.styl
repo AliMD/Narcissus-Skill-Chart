@@ -3,12 +3,49 @@ html,body
   margin 0
 
 [data-narcissus='skill-bar']
-  outline 1px solid #666
+  border-left 1px solid hsl(222, 64%, 77%)
+  border-bottom 1px solid hsl(222, 64%, 77%)
   margin 10px auto
 
   [data-value]
     float left
-    outline 1px solid #333
+    // outline 1px solid #333
+    border-radius 3px 3px 0 0
 
-  [data-color='1']
-    background-color hsl(0,80%,50%)
+
+    &[data-color='1']
+      background-color hsl(0, 77%, 66%)
+
+    &[data-color='2']
+      background-color hsl(31, 82%, 63%)
+
+    &[data-color='3']
+      background-color hsl(63, 100%, 58%)
+
+    &[data-color='4']
+      background-color hsl(79, 100%, 50%)
+
+    &[data-color='5']
+      background-color hsl(141, 89%, 73%)
+
+    &[data-color='6']
+      background-color hsl(197, 74%, 65%)
+
+    &[data-color='7']
+      background-color hsl(262, 29%, 56%)
+
+    .title
+      background-color hsl(0, 0%, 94%)
+      box-shadow 0 1px 4px hsla(0, 0%, 0%, 0.6)
+      text-shadow 0 1px 1px hsla(0, 100%, 100%, 0.8)
+      border-radius 3px
+      position relative
+      text-align center
+      padding 1px 0
+      font-size 14px
+      opacity 0
+      transition opacity 400ms
+
+    &:hover
+      .title
+        opacity 1
