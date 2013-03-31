@@ -54,12 +54,18 @@
         bardata = $.extend($bar.data(),{
           width: bar_width
         }),
-        extcss = bardata.color[0]==='#' ? {backgroundColor:bardata.color} : {};
+        extcss = bardata.color[0]!=='#' ? {} : {
+          backgroundColor: bardata.color
+        },
+        $title = $('<span>');
 
         bardata.value = parseInt(bardata.value,10);
-        bardata.value = (!bardata.value || bardata.value<1)  ? 1 :
+        bardata.value = (!bardata.value || bardata.value<1) ? 1 :
                   bardata.value>100 ? 100 : bardata.value;
         bardata.height = floor( data.height * bardata.value / 100 );
+
+        $title
+        .append(bardata.value+'%');
 
         $bar
         .css($.extend({
@@ -67,7 +73,8 @@
           height: bardata.height,
           marginLeft: data.barSpacing,
           marginTop:  data.height - bardata.height
-        },extcss));
+        },extcss))
+        .append($title);
       });
 
     });
@@ -76,8 +83,6 @@
   $(function(){
     $("[data-narcissus='skill-bar']").narcissusSkillBar();
   });
-
-
 
 /*
     var graph_height = $('.graph-skill').height(),
