@@ -1,6 +1,6 @@
-html,body
-  padding 0
-  margin 0
+colorTheme(h,s=70,l=40)
+  {"[data-color='"+h+"']"}
+    background-color hsl(h*10,s,l)
 
 [data-narcissus='skill-bar']
   border-left 1px solid hsl(222, 64%, 77%)
@@ -29,7 +29,10 @@ html,body
     &:hover
       .title
         opacity 1
-
+    
+  for i in 0...36
+    colorTheme i
+/*
     &[data-color='1']
       background-color hsl(0, 77%, 66%)
 
@@ -50,3 +53,4 @@ html,body
 
     &[data-color='7']
       background-color hsl(262, 29%, 56%)
+*/

@@ -56,7 +56,6 @@
         barSpacing: 10
       }, opt, $this.data()),
       options = $.extend({
-        title: 'outside',
         titlemargin: 10
       }, parsOpt(data.options)),
       $bars = $('[data-value]',this),
@@ -76,9 +75,7 @@
           width: bar_width,
           titleMargin: parseInt(options.titlemargin,10)
         }),
-        extcss = bardata.color[0]!=='#' ? {} : {
-          backgroundColor: bardata.color
-        },
+        barCss = {},
         $title = $('<div>'),
         titleCss = {};
 
@@ -92,13 +89,16 @@
         .append(bardata.value+'%');
 
         $bar
-        .css($.extend({
+        .css({
           width: bardata.width,
           height: bardata.height,
           marginRight: data.barSpacing,
           marginTop:  data.height - bardata.height
-        },extcss))
+        })
         .append($title);
+
+
+        //theme default css
 
         titleCss = {
             width: $title.width(),
@@ -115,7 +115,12 @@
 
         options.titleopacity && (titleCss.opacity = options.titleopacity);
 
+        bardata.color[0]!=='#' && (barCss.backgroundColor = bardata.color)
+
+        options.bradius && (barCss.borderRadius = options.bradius+'px '+options.bradius+'px 0 0')
+        console.log(barCss);
         $title.css(titleCss);
+        $bar.css(barCss)
 
       })
       .last()
